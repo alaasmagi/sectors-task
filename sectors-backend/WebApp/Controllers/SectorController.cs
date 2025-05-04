@@ -48,7 +48,7 @@ namespace WebApp.Controllers
         // GET: Sector/Create
         public IActionResult Create()
         {
-            ViewData["ParentId"] = new SelectList(_context.Sectors, "Id", "CreatedBy");
+            ViewData["ParentId"] = GetParentSelectList();
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace WebApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ParentId"] = new SelectList(_context.Sectors, "Id", "CreatedBy", sectorEntity.ParentId);
+            ViewData["ParentId"] = GetParentSelectList(sectorEntity.ParentId);
             return View(sectorEntity);
         }
 
@@ -82,7 +82,7 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["ParentId"] = new SelectList(_context.Sectors, "Id", "CreatedBy", sectorEntity.ParentId);
+            ViewData["ParentId"] = GetParentSelectList(sectorEntity.ParentId);
             return View(sectorEntity);
         }
 
@@ -118,7 +118,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ParentId"] = new SelectList(_context.Sectors, "Id", "CreatedBy", sectorEntity.ParentId);
+            ViewData["ParentId"] = GetParentSelectList(sectorEntity.ParentId);
             return View(sectorEntity);
         }
 
@@ -159,6 +159,33 @@ namespace WebApp.Controllers
         private bool SectorEntityExists(int id)
         {
             return _context.Sectors.Any(e => e.Id == id);
+        }
+        
+        private List<SelectListItem> GetParentSelectList(int? selectedParentId = null)
+        {
+            var sectors = _context.Sectors
+                .Select(s => new SelectListItem
+                {
+                    Value = s.Id.ToString(),
+                    Text = s.Id.ToString()
+                })
+                .ToList();
+
+            sectors.Insert(0, new SelectListItem
+            {
+                Value = "",
+                Text = "No Parent"
+            });
+
+            if (selectedParentId != null)
+            {
+                var selected = sectors.FirstOrDefault(s => s.Value == selectedParentId.ToString());
+                if (selected != null)
+                {
+                    selected.Selected = true;
+                }
+            }
+            return sectors;
         }
     }
 }

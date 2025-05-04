@@ -1,4 +1,5 @@
 using System.Threading.RateLimiting;
+using BLL;
 using DAL;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
@@ -52,6 +53,8 @@ builder.Services.AddRateLimiter(options =>
         limiterOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
     });
 });
+
+builder.Services.AddScoped<PersonService>();
 
 builder.Services.AddSwaggerGen(c =>
 {

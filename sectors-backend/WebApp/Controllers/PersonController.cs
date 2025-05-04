@@ -22,7 +22,7 @@ namespace WebApp.Controllers
         // GET: Person
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Persons.Include(p => p.Sector);
+            var appDbContext = _context.Persons.IgnoreQueryFilters().Include(p => p.Sector);
             return View(await appDbContext.ToListAsync());
         }
 
@@ -35,6 +35,7 @@ namespace WebApp.Controllers
             }
 
             var personEntity = await _context.Persons
+                .IgnoreQueryFilters()
                 .Include(p => p.Sector)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (personEntity == null)
@@ -48,7 +49,7 @@ namespace WebApp.Controllers
         // GET: Person/Create
         public IActionResult Create()
         {
-            ViewData["SectorId"] = new SelectList(_context.Sectors, "Id", "CreatedBy");
+            ViewData["SectorId"] = new SelectList(_context.Sectors, "Id", "Id");
             return View();
         }
 
@@ -65,7 +66,7 @@ namespace WebApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SectorId"] = new SelectList(_context.Sectors, "Id", "CreatedBy", personEntity.SectorId);
+            ViewData["SectorId"] = new SelectList(_context.Sectors, "Id", "Id", personEntity.SectorId);
             return View(personEntity);
         }
 
@@ -77,12 +78,13 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var personEntity = await _context.Persons.FindAsync(id);
+            var personEntity = await _context.Persons.IgnoreQueryFilters().FirstOrDefaultAsync(p => p.Id == id);
+
             if (personEntity == null)
             {
                 return NotFound();
             }
-            ViewData["SectorId"] = new SelectList(_context.Sectors, "Id", "CreatedBy", personEntity.SectorId);
+            ViewData["SectorId"] = new SelectList(_context.Sectors, "Id", "Id", personEntity.SectorId);
             return View(personEntity);
         }
 
@@ -118,7 +120,7 @@ namespace WebApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["SectorId"] = new SelectList(_context.Sectors, "Id", "CreatedBy", personEntity.SectorId);
+            ViewData["SectorId"] = new SelectList(_context.Sectors, "Id", "Id", personEntity.SectorId);
             return View(personEntity);
         }
 
@@ -131,6 +133,7 @@ namespace WebApp.Controllers
             }
 
             var personEntity = await _context.Persons
+                .IgnoreQueryFilters()
                 .Include(p => p.Sector)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (personEntity == null)
@@ -146,7 +149,7 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var personEntity = await _context.Persons.FindAsync(id);
+            var personEntity = await _context.Persons.IgnoreQueryFilters().FirstOrDefaultAsync(p => p.Id == id);
             if (personEntity != null)
             {
                 _context.Persons.Remove(personEntity);

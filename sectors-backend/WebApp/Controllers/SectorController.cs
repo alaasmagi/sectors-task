@@ -22,7 +22,7 @@ namespace WebApp.Controllers
         // GET: Sector
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Sectors.Include(s => s.Parent);
+            var appDbContext = _context.Sectors.IgnoreQueryFilters().Include(s => s.Parent);
             return View(await appDbContext.ToListAsync());
         }
 
@@ -35,6 +35,7 @@ namespace WebApp.Controllers
             }
 
             var sectorEntity = await _context.Sectors
+                .IgnoreQueryFilters()
                 .Include(s => s.Parent)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (sectorEntity == null)
@@ -77,7 +78,7 @@ namespace WebApp.Controllers
                 return NotFound();
             }
 
-            var sectorEntity = await _context.Sectors.FindAsync(id);
+            var sectorEntity = await _context.Sectors.IgnoreQueryFilters().FirstOrDefaultAsync(s => s.Id == id);
             if (sectorEntity == null)
             {
                 return NotFound();
@@ -131,6 +132,7 @@ namespace WebApp.Controllers
             }
 
             var sectorEntity = await _context.Sectors
+                .IgnoreQueryFilters()
                 .Include(s => s.Parent)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (sectorEntity == null)
@@ -146,7 +148,7 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var sectorEntity = await _context.Sectors.FindAsync(id);
+            var sectorEntity = await _context.Sectors.IgnoreQueryFilters().FirstOrDefaultAsync(s => s.Id == id);
             if (sectorEntity != null)
             {
                 _context.Sectors.Remove(sectorEntity);

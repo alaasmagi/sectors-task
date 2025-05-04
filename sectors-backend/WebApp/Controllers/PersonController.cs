@@ -1,0 +1,164 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using DAL;
+using Domain;
+
+namespace WebApp.Controllers
+{
+    public class PersonController : Controller
+    {
+        private readonly AppDbContext _context;
+
+        public PersonController(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        // GET: Person
+        public async Task<IActionResult> Index()
+        {
+            var appDbContext = _context.Persons.Include(p => p.Sector);
+            return View(await appDbContext.ToListAsync());
+        }
+
+        // GET: Person/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var personEntity = await _context.Persons
+                .Include(p => p.Sector)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (personEntity == null)
+            {
+                return NotFound();
+            }
+
+            return View(personEntity);
+        }
+
+        // GET: Person/Create
+        public IActionResult Create()
+        {
+            ViewData["SectorId"] = new SelectList(_context.Sectors, "Id", "CreatedBy");
+            return View();
+        }
+
+        // POST: Person/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("FullName,SectorId,Agreement,Id,CreatedBy,CreatedAt,UpdatedBy,UpdatedAt,Deleted")] PersonEntity personEntity)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(personEntity);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["SectorId"] = new SelectList(_context.Sectors, "Id", "CreatedBy", personEntity.SectorId);
+            return View(personEntity);
+        }
+
+        // GET: Person/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var personEntity = await _context.Persons.FindAsync(id);
+            if (personEntity == null)
+            {
+                return NotFound();
+            }
+            ViewData["SectorId"] = new SelectList(_context.Sectors, "Id", "CreatedBy", personEntity.SectorId);
+            return View(personEntity);
+        }
+
+        // POST: Person/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("FullName,SectorId,Agreement,Id,CreatedBy,CreatedAt,UpdatedBy,UpdatedAt,Deleted")] PersonEntity personEntity)
+        {
+            if (id != personEntity.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(personEntity);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PersonEntityExists(personEntity.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["SectorId"] = new SelectList(_context.Sectors, "Id", "CreatedBy", personEntity.SectorId);
+            return View(personEntity);
+        }
+
+        // GET: Person/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var personEntity = await _context.Persons
+                .Include(p => p.Sector)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (personEntity == null)
+            {
+                return NotFound();
+            }
+
+            return View(personEntity);
+        }
+
+        // POST: Person/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var personEntity = await _context.Persons.FindAsync(id);
+            if (personEntity != null)
+            {
+                _context.Persons.Remove(personEntity);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool PersonEntityExists(int id)
+        {
+            return _context.Persons.Any(e => e.Id == id);
+        }
+    }
+}

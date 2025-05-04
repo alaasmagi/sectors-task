@@ -6,7 +6,9 @@ namespace Domain;
 
 public class  PersonEntity : BaseEntity
 {
-    [Required] public string FullName { get; set; } = default!;
+    [Required] 
+    [MaxLength(128)]
+    public string FullName { get; set; } = default!;
     
     public SectorEntity? Sector { get; set; }
     public int? SectorId { get; set; }

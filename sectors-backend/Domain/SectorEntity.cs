@@ -8,6 +8,7 @@ namespace Domain;
 public class SectorEntity : BaseEntity
 {
     [Required]
+    [MaxLength(128)]
     public string Name { get; set; } = default!;
 
     [JsonIgnore] 

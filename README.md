@@ -58,7 +58,7 @@ By separating UI components, views, and business logic, the frontend remains cle
 
 ### Services
 There is one services in the backend:
-* PersonService - main service that handles all CRUD operations with PersonEntity and also fetches all SectorEntities.
+* **PersonService** - main service that handles all CRUD operations with PersonEntity and also fetches all SectorEntities.
 
 ### Domain
 Different entities are used to manage data more easily.

@@ -123,7 +123,7 @@ public class BaseEntity
     public bool Deleted { get; set; } = false;
 }
 ```
-The `BaseEntity` class is not defined in this project, it comes from the NuGet package [`AL_AppDev.Base(v1.0.2)`](https://www.nuget.org/packages/AL_AppDev.Base/1.0.2), maintained and published by myself.
+The `BaseEntity` class is not defined in this project, it comes from the NuGet package [AL_AppDev.Base(v1.0.2)](https://www.nuget.org/packages/AL_AppDev.Base/1.0.2), maintained and published by myself.
 
 
 ### DTOs
@@ -141,10 +141,10 @@ public class SectorDto
 ### Database structure
 Database was created with Entity Framework using the entities listed above. Below is an image of Database structure.
 ![drawSQL-image-export-2025-05-05 (1)](https://github.com/user-attachments/assets/e5656827-6fbe-4413-90c2-d8f7ac408240)
-<img src="https://github.com/user-attachments/assets/e5656827-6fbe-4413-90c2-d8f7ac408240" height="100"/>
+<img src="https://github.com/user-attachments/assets/e5656827-6fbe-4413-90c2-d8f7ac408240" height="300"/>
 
 
-Full database dump: [`sectors-db-dump`](https://github.com/alaasmagi/sectors-task/blob/main/sectors-db-dump.sql)
+Full database dump: [sectors-db-dump](https://github.com/alaasmagi/sectors-task/blob/main/sectors-db-dump.sql)
 
 
 ### API documentation

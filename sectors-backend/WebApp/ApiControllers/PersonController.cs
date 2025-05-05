@@ -87,4 +87,16 @@ public class PersonController(PersonService personService) : ControllerBase
         
         return Ok(personId);
     }
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeletePerson(int id)
+    {
+        var status = await personService.DeletePersonAsync(id);
+        if (!status)
+        {
+            return BadRequest(new { message = "Person was not deleted"});
+        }
+        
+        return Ok();
+    }
 }

@@ -32,14 +32,12 @@ public class PersonService(AppDbContext context)
    
     public async Task<int> UpdatePersonAsync(int personId, PersonEntity newPersonData)
     {
-        var doesPersonExist = await _personRepository.DoesPersonExistById(personId);
-
-        if (!doesPersonExist)
-        {
-            return 0;
-        }
-        
         return await _personRepository.UpdatePerson(personId, newPersonData);
+    }
+    
+    public async Task<bool> DeletePersonAsync(int personId)
+    {
+        return await _personRepository.DeletePerson(personId);
     }
     
 }

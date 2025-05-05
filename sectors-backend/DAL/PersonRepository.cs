@@ -52,4 +52,17 @@ public class PersonRepository(AppDbContext context)
         await context.SaveChangesAsync();
         return existingPerson.Id;  
     }
+    
+    public async Task<bool> DeletePerson(int personId)
+    {
+        var existingPerson = await context.Persons.FindAsync(personId);
+
+        if (existingPerson == null)
+        {
+            return false;
+        }
+
+        existingPerson.Deleted = true;
+        return await context.SaveChangesAsync() > 0;  
+    }
 }

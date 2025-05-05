@@ -137,7 +137,11 @@ public class SectorDto
     public List<SectorDto>? Children { get; set; }
 }
 ```
-  
+
+### API documentation
+API documentation is done using Swagger. Below is an image of all available API endpoints in this project's backend applicartion.
+![image](https://github.com/user-attachments/assets/a729c66f-be4e-48f1-b29b-f5bccac5fc93)
+
 ### User Interface
 **The application has two UIs:**
 * the main UI for regular application users (implemented in TypeScript & React),
@@ -148,11 +152,11 @@ For the **Admin UI** customisation is done using Bootstrap.
 
 ## Improvements & scaling possibilities
 
-### Taxation
-* Some kind of tax office API could be used to get the most updated taxation data
+### Authentication (frontend side)
+* JWT based authentication could be used to make frontend safe to use.
 
-### More AI models as options
-* As OpenAI develops more and more different AI models, they could be added in this openai-enhancer-app as options
+### Authentication (backend side)
+* Some sort of authorization could be used to make backend admin UI safe for managing database.
 
-### Mobile Application
-* Separate mobile application could be made with React Native or Flutter to make UX better on mobile interfaces
+### Further application development
+* This sector form app could be just the beginning of a great web application with a lot of functionality. 

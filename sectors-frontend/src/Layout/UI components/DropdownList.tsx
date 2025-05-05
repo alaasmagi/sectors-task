@@ -1,8 +1,14 @@
 import { Icons } from "./Icons";
 
+interface DropDownListOption {
+  value: string;
+  label: string;
+  indentLevel?: number;
+}
+
 interface DropDownListProperties {
   icon: keyof typeof Icons;
-  options: { value: string; label: string }[];
+  options: DropDownListOption[];
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   label: string;
   value?: string;
@@ -15,14 +21,18 @@ const DropDownList: React.FC<DropDownListProperties> = ({ icon, options, value, 
         <img src={Icons[icon]} className="h-7" />
         <select
           value={value}
-          onChange={(e) => onChange(e)}
+          onChange={onChange}
           className="outline-none text-main-text w-full text-lg bg-main-dark"
         >
           <option key="" value="">
             {label}
           </option>
           {options.map((option) => (
-            <option key={option.value} value={option.value}>
+            <option
+              key={option.value}
+              value={option.value}
+              style={{ paddingLeft: `${(option.indentLevel ?? 0) * 1.5}rem` }}
+            >
               {option.label}
             </option>
           ))}

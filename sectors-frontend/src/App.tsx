@@ -7,8 +7,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/:message?" element={<MainView />} />
-        <Route path="/Edit/:id?/:message?" element={<EditView />} />
+        <Route path="/:id?" element={<MainView />} />
+        <Route path="/Edit/:id?" element={<EditView />} />
       </Routes>
     </Router>
   );

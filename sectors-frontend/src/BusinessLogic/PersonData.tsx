@@ -57,7 +57,7 @@ export async function UpdatePerson(person: PersonModel): Promise<number | string
   const response = await axios.patch(
     `${import.meta.env.VITE_API_URL}/Person/Update`,
     {
-      id: person.personId,
+      personId: person.personId,
       fullName: person.fullName,
       sectorId: person.sectorId,
       agreement: person.agreement,

@@ -17,7 +17,7 @@ public class PersonController(PersonService personService) : ControllerBase
 
         if (sectors.Count == 0)
         {
-            return NotFound(new { message = "Sectors not found"});
+            return Ok(new { message = "Sectors not found"});
         }
 
         return Ok(sectors);
@@ -30,7 +30,7 @@ public class PersonController(PersonService personService) : ControllerBase
 
         if (person == null)
         {
-            return NotFound(new { message = "Person not found"});
+            return Ok(new { message = "Person not found"});
         }
         
         return Ok(person);
@@ -41,7 +41,7 @@ public class PersonController(PersonService personService) : ControllerBase
     {
         if (ModelState.IsValid == false)
         {
-            return BadRequest(new { message = "Invalid credentials"});
+            return Ok(new { message = "Invalid credentials"});
         }
 
         var newPerson = new PersonEntity
@@ -56,7 +56,7 @@ public class PersonController(PersonService personService) : ControllerBase
         var personId = await personService.AddPersonToDbAsync(newPerson);
         if (personId == 0)
         {
-            return BadRequest(new { message = "Person was not added"});
+            return Ok(new { message = "Person was not added"});
         }
         
         return Ok(personId);
@@ -67,7 +67,7 @@ public class PersonController(PersonService personService) : ControllerBase
     {
         if (ModelState.IsValid == false || model.PersonId <= 0)
         {
-            return BadRequest(new { message = "Invalid credentials"});
+            return Ok(new { message = "Invalid credentials"});
         }
         
         var newPerson = new PersonEntity
@@ -82,7 +82,7 @@ public class PersonController(PersonService personService) : ControllerBase
         var personId = await personService.UpdatePersonAsync(model.PersonId!.Value, newPerson);
         if (personId == 0)
         {
-            return BadRequest(new { message = "Person was not updated"});
+            return Ok(new { message = "Person was not updated"});
         }
         
         return Ok(personId);
@@ -94,7 +94,7 @@ public class PersonController(PersonService personService) : ControllerBase
         var status = await personService.DeletePersonAsync(id);
         if (!status)
         {
-            return BadRequest(new { message = "Person was not deleted"});
+            return Ok(new { message = "Person was not deleted"});
         }
         
         return Ok();

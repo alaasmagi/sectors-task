@@ -1,30 +1,27 @@
 import { useEffect, useState } from "react";
 import "../../App.css";
 import { useNavigate, useParams } from "react-router-dom";
-import NormalMessage from "../UI components/NormalMessage";
 import PersonModel from "../../Models/PersonModel";
 import SectorModel from "../../Models/SectorModel";
-import { AddPerson, GetAllSectors, GetPersonById, UpdatePerson } from "../../BusinessLogic/PersonData";
+import { AddPerson, GetAllSectors, GetPersonById, RemovePerson, UpdatePerson } from "../../BusinessLogic/PersonData";
 import TextBox from "../UI components/TextBox";
 import DropDownList from "../UI components/DropdownList";
 import Checkbox from "../UI components/Checkbox";
 import NormalButton from "../UI components/NormalButton";
 import DropdownModel from "../../Models/DropdownModel";
 import NormalLink from "../UI components/Link";
+import ErrorMessage from "../UI components/ErrorMessage";
+import SuccessMessage from "../UI components/SuccessMessage";
 
 function EditView() {
   const { id } = useParams();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [normalMessage, setNormalMessage] = useState<string | null>(null);
-  const [currentSessionData, setCurrentSessionData] =
-    useState<PersonModel | null>(null);
+  const [currentSessionData, setCurrentSessionData] = useState<PersonModel | null>(null);
   const [selectedSectorId, setSelectedSectorId] = useState<string>("");
   const [insertedFullName, setInsertedFullName] = useState<string>("");
   const [termsAgreement, setTermsAgreement] = useState<boolean>(false);
-  const [selectboxData, setSelectboxData] = useState<SectorModel[] | null>(
-    null
-  );
+  const [selectboxData, setSelectboxData] = useState<SectorModel[] | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,6 +41,7 @@ function EditView() {
       const personData = await GetPersonById(id);
       if (typeof personData === "string") {
         setErrorMessage(personData);
+        setTimeout(() => setErrorMessage(null), 2500);
       } else {
         setCurrentSessionData(personData);
       }
@@ -57,10 +55,9 @@ function EditView() {
     }
   };
 
-  const flattenSectors = (
-    nodes: SectorModel[],
-    path = [] as string[]
-  ) : DropdownModel[] => {
+  const isFormValid = () => insertedFullName !== "" && selectedSectorId !== "" && termsAgreement !== false;
+
+  const flattenSectors = (nodes: SectorModel[], path = [] as string[]): DropdownModel[] => {
     let result: DropdownModel[] = [];
 
     for (let index = 0; index < nodes.length; index++) {
@@ -87,39 +84,52 @@ function EditView() {
   const dropdownOptions = selectboxData ? flattenSectors(selectboxData) : [];
 
   const handleAdd = async () => {
-    const data : PersonModel = {
+    const data: PersonModel = {
       fullName: insertedFullName,
       sectorId: Number(selectedSectorId),
-      agreement: termsAgreement
-    }
-    
-    const result = await AddPerson(data);
+      agreement: termsAgreement,
+    };
 
+    const result = await AddPerson(data);
+    if (typeof result === "number") {
+      setSuccessMessage("Person added successfully");
+      setTimeout(() => setSuccessMessage(null), 2500);
+      setTimeout(() => navigate(`/${result}`), 2500);
+    } else {
+      setErrorMessage(result);
+      setTimeout(() => setErrorMessage(null), 2500);
+    }
   };
 
   const handleEdit = async () => {
-    const data : PersonModel = {
+    const data: PersonModel = {
       personId: Number(id),
       fullName: insertedFullName,
       sectorId: Number(selectedSectorId),
-      agreement: termsAgreement
-    }
+      agreement: termsAgreement,
+    };
 
     const result = await UpdatePerson(data);
-
-
+    if (typeof result === "number") {
+      setSuccessMessage("Person updated successfully");
+      setTimeout(() => setSuccessMessage(null), 2500);
+      setTimeout(() => navigate(`/${result}`), 2500);
+    } else {
+      setErrorMessage(result);
+      setTimeout(() => setErrorMessage(null), 2500);
+    }
   };
 
-
   const handleDelete = async () => {
-    const data : PersonModel = {
-      fullName: insertedFullName,
-      sectorId: Number(selectedSectorId),
-      agreement: termsAgreement
+    const result = await RemovePerson(Number(id));
+    if (typeof result === "boolean") {
+      setSuccessMessage("Person deleted successfully");
+      setTimeout(() => setSuccessMessage(null), 2500);
+      setTimeout(() => navigate(`/`), 2500);
+    } else {
+      setErrorMessage(result);
+      setTimeout(() => setErrorMessage(null), 2500);
     }
-    
-    const result = await AddPerson(data);
-
   };
 
   return (
@@ -127,10 +137,8 @@ function EditView() {
       <div className="flex max-h-screen max-w-screen items-center justify-center">
         <div className="flex flex-col gap-5">
           <div className="flex flex-col max-md:w-90 md:w-xl bg-main-dark rounded-3xl p-6 gap-15 items-center">
-            <span className="text-2xl font-bold self-start">
-              {id ? "Edit data" : "Add data"}
-            </span>
-            <div className="flex flex-col self-center max-w-10/12 gap-5">
+            <span className="text-2xl font-bold self-start">{id ? "Edit data" : "Add data"}</span>
+            <div className="flex flex-col self-center items-center max-w-10/12 gap-5">
               <TextBox
                 label={"Full name:"}
                 icon="person-icon"
@@ -142,25 +150,24 @@ function EditView() {
                 label="Select a sector"
                 options={dropdownOptions}
                 value={selectedSectorId}
-                onChange={(e) => {
-                  setSelectedSectorId(e.target.value);
-                  console.log(e.target.value);
-                }}
+                onChange={(e) => setSelectedSectorId(e.target.value)}
               />
               <Checkbox
                 label={"I agree to terms"}
                 checked={termsAgreement}
                 onChange={(checked) => setTermsAgreement(checked)}
               />
-              {normalMessage && <NormalMessage text={normalMessage} />}
+              {errorMessage && <ErrorMessage text={errorMessage} />}
+              {successMessage && <SuccessMessage text={successMessage} />}
             </div>
             <NormalButton
               text={id ? "Edit data" : "Add data"}
               onClick={() => {
                 id ? handleEdit() : handleAdd();
               }}
+              isDisabled={!isFormValid()}
             />
-            {id && <NormalLink text="Remove data" onClick={handleDelete}/>}
+            {id && <NormalLink text="Remove data" onClick={handleDelete} />}
           </div>
         </div>
       </div>

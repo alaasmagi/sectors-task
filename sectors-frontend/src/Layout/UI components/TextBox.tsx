@@ -28,8 +28,13 @@ export default function TextBox({
   return (
     <div className="flex flex-col w-full">
       <label className="self-start">{label}</label>
-      <div className= {isFocused ? "flex flex-row w-max-screen items-center gap-1.5 border-[1px] py-2 px-1 rounded-xl border-main-blue" : 
-        "flex flex-row w-max-screen items-center gap-1.5 border-[1px] py-2 px-1 rounded-xl border-main-text"}>
+      <div
+        className={
+          isFocused
+            ? "flex flex-row w-max-screen items-center gap-1.5 border-[1px] py-2 px-1 rounded-xl border-main-blue"
+            : "flex flex-row w-max-screen items-center gap-1.5 border-[1px] py-2 px-1 rounded-xl border-main-text"
+        }
+      >
         <img src={Icons[icon]} className="h-7" alt={`${icon}-Icon`} />
         <input
           type={isTextVisible ? "text" : "password"}

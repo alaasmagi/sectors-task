@@ -76,3 +76,16 @@ export async function UpdatePerson(person: PersonModel): Promise<number | string
 
   return response.data.message ?? "No internet connetion";
 }
+
+export async function RemovePerson(id: number): Promise<boolean | string> {
+  const response = await axios.delete(`${import.meta.env.VITE_API_URL}/Person/${id}`, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (response.status === 200 && !response.data.message) {
+    return true;
+  }
+
+  return response.data.message ?? "No internet connetion";
+}

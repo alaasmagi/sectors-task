@@ -11,10 +11,8 @@ import { GetPersonById } from "../../BusinessLogic/PersonData";
 function MainView() {
   const { id } = useParams();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [normalMessage, setNormalMessage] = useState<string | null>(null);
-  const [currentSessionData, setCurrentSessionData] =
-    useState<PersonModel | null>(null);
+  const [currentSessionData, setCurrentSessionData] = useState<PersonModel | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,9 +28,7 @@ function MainView() {
         setCurrentSessionData(personData);
       }
     } else {
-      setNormalMessage(
-        "No recent activity. Click the button below to add data."
-      );
+      setNormalMessage("No recent activity. Click the button below to add data.");
     }
   };
 
@@ -41,9 +37,7 @@ function MainView() {
       <div className="flex max-h-screen max-w-screen items-center justify-center">
         <div className="flex flex-col gap-5">
           <div className="flex flex-col max-md:w-90 md:w-xl bg-main-dark rounded-3xl p-6 gap-5">
-            <span className="text-2xl font-bold self-start">
-              {"Recent activity"}
-            </span>
+            <span className="text-2xl font-bold self-start">{"Recent activity"}</span>
             {currentSessionData && (
               <ContainerCardSmall
                 boldLabelA={String(currentSessionData?.fullName)}

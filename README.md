@@ -140,7 +140,6 @@ public class SectorDto
 
 ### Database structure
 Database was created with Entity Framework using the entities listed above. Below is an image of Database structure.
-![drawSQL-image-export-2025-05-05 (1)](https://github.com/user-attachments/assets/e5656827-6fbe-4413-90c2-d8f7ac408240)
 <img src="https://github.com/user-attachments/assets/e5656827-6fbe-4413-90c2-d8f7ac408240" height="300"/>
 
 

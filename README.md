@@ -138,6 +138,13 @@ public class SectorDto
 }
 ```
 
+### Database structure
+Database was created with Entity Framework using the entities listed above. Below is an image of Database structure.
+![drawSQL-image-export-2025-05-05](https://github.com/user-attachments/assets/72543f56-f503-44ea-ba5c-1a3198dc39cd)
+
+Full database dump
+
+
 ### API documentation
 API documentation is done using Swagger. Below is an image of all available API endpoints in this project's backend applicartion.
 ![image](https://github.com/user-attachments/assets/a729c66f-be4e-48f1-b29b-f5bccac5fc93)

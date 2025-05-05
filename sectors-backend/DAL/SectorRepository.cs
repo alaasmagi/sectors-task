@@ -5,7 +5,7 @@ namespace DAL;
 
 public class SectorRepository(AppDbContext context)
 {
-    public async Task<List<SectorDto>> GetAllSectorsAsync()
+    public async Task<List<SectorDto>> GetAllSectors()
     {
         var query = context.Sectors
             .AsQueryable();
@@ -16,18 +16,18 @@ public class SectorRepository(AppDbContext context)
 
         var lookup = sectors.ToLookup(s => s.ParentId);
 
-        List<SectorDto> BuildTree(int? parentId)
+        List<SectorDto> BuildHierarchy(int? parentId)
         {
             return lookup[parentId]
                 .Select(s => new SectorDto
                 {
                     Id = s.Id,
                     Name = s.Name,
-                    Children = BuildTree(s.Id)
+                    Children = BuildHierarchy(s.Id)
                 })
                 .ToList();
         }
 
-        return BuildTree(null);
+        return BuildHierarchy(null);
     }
 }

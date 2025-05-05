@@ -1,6 +1,8 @@
 ﻿using Azure;
 using BLL;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
+using WebApp.Models;
 
 namespace WebApp.ApiControllers;
 
@@ -12,7 +14,7 @@ public class PersonController(PersonService personService) : ControllerBase
     [HttpGet("Sectors")]
     public async Task<IActionResult> GetAllSectors()
     {
-        var sectors = await personService.GetAllSectors();
+        var sectors = await personService.GetAllSectorsAsync();
 
         if (sectors.Count == 0)
         {
@@ -22,66 +24,68 @@ public class PersonController(PersonService personService) : ControllerBase
         return Ok(sectors);
     }
     
-    /*[HttpGet("Person/{id}")]
+    [HttpGet("Person/{id}")]
     public async Task<IActionResult> GetPersonById(int id)
     {
-        var user = await userManagementService.GetUserByUniIdAsync(model.UniId);
+        var person = await personService.GetPersonByIdAsync(id);
 
-        if (user == null)
+        if (person == null)
         {
-            return NotFound(new { message = "User not found", messageCode = "user-not-found" });
+            return NotFound(new { message = "Person not found"});
         }
-
-        var userAuthData = await userManagementService.AuthenticateUserAsync(user.Id, model.Password);
-        if (userAuthData == null || !ModelState.IsValid)
-        {
-            logger.LogWarning($"Form data is invalid");
-            return Unauthorized(new
-                { message = "Invalid UNI-ID or password", messageCode = "invalid-uni-id-password" });
-        }
-
-        var token = authService.GenerateJwtToken(user);
-        Response.Cookies.Append("token", token, new CookieOptions
-        {
-            HttpOnly = true,
-            Secure = true,
-            SameSite = SameSiteMode.None,
-            MaxAge = TimeSpan.FromDays(60)
-        });
-
-        logger.LogInformation($"User with UNI-ID {model.UniId} was logged in successfully");
-        return Ok(new { Token = token });
+        
+        return Ok(person);
     }
     
-    [HttpPost("Login")]
-    public async Task<IActionResult> Login([FromBody] LoginModel model)
+    [HttpPost("Person/Add")]
+    public async Task<IActionResult> AddPerson([FromBody] PersonModel model)
     {
-        logger.LogInformation($"{HttpContext.Request.Method.ToUpper()} - {HttpContext.Request.Path}");
-        var user = await userManagementService.GetUserByUniIdAsync(model.UniId);
-
-        if (user == null)
+        if (ModelState.IsValid == false)
         {
-            return NotFound(new { message = "User not found", messageCode = "user-not-found" });
+            return BadRequest(new { message = "Invalid credentials"});
         }
 
-        var userAuthData = await userManagementService.AuthenticateUserAsync(user.Id, model.Password);
-        if (userAuthData == null || !ModelState.IsValid)
+        var newPerson = new PersonEntity
         {
-            logger.LogWarning($"Form data is invalid");
-            return Unauthorized(new
-                { message = "Invalid UNI-ID or password", messageCode = "invalid-uni-id-password" });
+            FullName = model.FullName,
+            SectorId = model.SectorId,
+            Agreement = model.Agreement,
+            CreatedBy = model.Origin,
+            UpdatedBy = model.Origin
+        };
+        
+        var personId = await personService.AddPersonToDbAsync(newPerson);
+        if (personId == 0)
+        {
+            return BadRequest(new { message = "Person was not added"});
         }
-
-        var token = authService.GenerateJwtToken(user);
-        Response.Cookies.Append("token", token, new CookieOptions
+        
+        return Ok(personId);
+    }
+    
+    [HttpPatch("Person/Update")]
+    public async Task<IActionResult> UpdatePerson([FromBody] PersonModel model)
+    {
+        if (ModelState.IsValid == false || model.PersonId <= 0)
         {
-            HttpOnly = true,
-            Secure = true,
-            SameSite = SameSiteMode.None,
-            MaxAge = TimeSpan.FromDays(60)
-        });
+            return BadRequest(new { message = "Invalid credentials"});
+        }
+        
+        var newPerson = new PersonEntity
+        {
+            FullName = model.FullName,
+            SectorId = model.SectorId,
+            Agreement = model.Agreement,
+            CreatedBy = model.Origin,
+            UpdatedBy = model.Origin
+        };
 
-        logger.LogInformation($"User with UNI-ID {model.UniId} was logged in successfully");
-        return Ok(new { Token = token });
-    }*/
+        var personId = await personService.UpdatePersonAsync(model.PersonId!.Value, newPerson);
+        if (personId == 0)
+        {
+            return BadRequest(new { message = "Person was not updated"});
+        }
+        
+        return Ok(personId);
+    }
 }

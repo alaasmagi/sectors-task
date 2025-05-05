@@ -16,7 +16,7 @@
 * Modern web browser
 
 The application should have two .env files:
-1) first one in the root of backend folder `/sectors-backend` and it shoult have following content:
+1) the first one in the root of backend folder `/sectors-backend` and it shoult have following content:
 ```bash
 HOST=<your-db-host>
 PORT=<your-db-port>
@@ -26,7 +26,7 @@ DBKEY=<your-db-access-key>
 
 FRONTENDURL=<your-frontend-client-url>
 ```
-2) second one in the root of frontend folder `/sectors-frontend` and it should have following content:
+2) the second one in the root of frontend folder `/sectors-frontend` and it should have following content:
 ```bash
 VITE_API_URL=<your-backend-api-url>
 ```

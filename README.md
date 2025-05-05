@@ -15,7 +15,7 @@
 * Node.js
 * Modern web browser
 
-The application should have two .env files:
+The application should have two .env files:  
 a) the first one in the root of backend folder `/sectors-backend` and it shoult have following content:
 ```bash
 HOST=<your-db-host>

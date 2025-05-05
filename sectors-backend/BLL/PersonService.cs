@@ -20,7 +20,7 @@ public class PersonService(AppDbContext context)
     
     public async Task<int?> AddPersonToDbAsync(PersonEntity person)
     {
-        var doesPersonExist = await _personRepository.DoesPersonExist(person.FullName);
+        var doesPersonExist = await _personRepository.DoesPersonExistByName(person.FullName);
 
         if (doesPersonExist)
         {
@@ -32,7 +32,7 @@ public class PersonService(AppDbContext context)
    
     public async Task<int> UpdatePersonAsync(int personId, PersonEntity newPersonData)
     {
-        var doesPersonExist = await _personRepository.DoesPersonExist(newPersonData.FullName);
+        var doesPersonExist = await _personRepository.DoesPersonExistById(personId);
 
         if (!doesPersonExist)
         {

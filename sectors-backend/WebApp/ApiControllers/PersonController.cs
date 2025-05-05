@@ -1,5 +1,4 @@
-﻿using Azure;
-using BLL;
+﻿using BLL;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Models;
@@ -24,7 +23,7 @@ public class PersonController(PersonService personService) : ControllerBase
         return Ok(sectors);
     }
     
-    [HttpGet("Person/{id}")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetPersonById(int id)
     {
         var person = await personService.GetPersonByIdAsync(id);
@@ -37,7 +36,7 @@ public class PersonController(PersonService personService) : ControllerBase
         return Ok(person);
     }
     
-    [HttpPost("Person/Add")]
+    [HttpPost("Add")]
     public async Task<IActionResult> AddPerson([FromBody] PersonModel model)
     {
         if (ModelState.IsValid == false)
@@ -63,7 +62,7 @@ public class PersonController(PersonService personService) : ControllerBase
         return Ok(personId);
     }
     
-    [HttpPatch("Person/Update")]
+    [HttpPatch("Update")]
     public async Task<IActionResult> UpdatePerson([FromBody] PersonModel model)
     {
         if (ModelState.IsValid == false || model.PersonId <= 0)

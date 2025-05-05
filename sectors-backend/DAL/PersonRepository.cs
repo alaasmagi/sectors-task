@@ -10,9 +10,14 @@ public class PersonRepository(AppDbContext context)
         return await context.Persons.FindAsync(id) ?? null;
     }
 
-    public async Task<bool> DoesPersonExist(string fullName)
+    public async Task<bool> DoesPersonExistByName(string fullName)
     {
         return await context.Persons.AnyAsync(p => p.FullName == fullName);
+    }
+    
+    public async Task<bool> DoesPersonExistById(int id)
+    {
+        return await context.Persons.AnyAsync(p => p.Id == id);
     }
     
     public async Task<int> InsertPerson(PersonEntity person)

@@ -30,7 +30,7 @@ b) the second one in the root of frontend folder `/sectors-frontend` and it shou
 ```bash
 VITE_API_URL=<your-backend-api-url>
 ```
-These .env files help keeping sensitive DB access information secure and also giving the flexibility of setting different URL-s without actually digging into the source code itself.
+These .env files help keeping sensitive DB access information secure and also giving the flexibility of setting frontend and backend URL-s without actually digging into the source code itself.
 
 ### Running the app
 

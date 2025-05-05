@@ -141,13 +141,16 @@ public class SectorDto
 ### Database structure
 Database was created with Entity Framework using the entities listed above. Below is an image of Database structure.
 ![drawSQL-image-export-2025-05-05 (1)](https://github.com/user-attachments/assets/e5656827-6fbe-4413-90c2-d8f7ac408240)
+<img src="https://github.com/user-attachments/assets/e5656827-6fbe-4413-90c2-d8f7ac408240" height="100"/>
 
-Full database dump
+
+Full database dump: [`sectors-db-dump`](https://github.com/alaasmagi/sectors-task/blob/main/sectors-db-dump.sql)
 
 
 ### API documentation
 API documentation is done using Swagger. Below is an image of all available API endpoints in this project's backend applicartion.
 ![image](https://github.com/user-attachments/assets/a729c66f-be4e-48f1-b29b-f5bccac5fc93)
+
 
 ### User Interface
 **The application has two UIs:**

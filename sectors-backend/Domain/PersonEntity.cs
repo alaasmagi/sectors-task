@@ -10,7 +10,7 @@ public class  PersonEntity : BaseEntity
     public string FullName { get; set; } = default!;
     
     public SectorEntity? Sector { get; set; }
-    public int? SectorId { get; set; }
+    public int SectorId { get; set; }
 
     [Required]
     public bool Agreement { get; set; }

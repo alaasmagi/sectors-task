@@ -5,7 +5,7 @@
 * UI language: English
 * Development year: **2025**
 * Languages and technologies: **Backend: C#, .NET Core, EF Core, ASP.NET MVC; Frontend: TypeScript, React**
-* Test assignment for Helmes AS
+* Test assignment for **Helmes AS**
 
 ## How to run
 

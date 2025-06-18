@@ -71,11 +71,12 @@ Different entities are used to manage data more easily.
 public class  PersonEntity : BaseEntity
 {
     [Required] 
+    public Guid ExternalId { get; set; } = Guid.NewGuid();
+    [Required] 
     [MaxLength(128)]
     public string FullName { get; set; } = default!;
-
-    // Navigation property, EF handles it automatically
-    public SectorEntity? Sector { get; set; } 
+    
+    public SectorEntity? Sector { get; set; }
     public int SectorId { get; set; }
 
     [Required]
@@ -138,6 +139,18 @@ public class SectorDto
     public int Id { get; set; }
     public string Name { get; set; } = default!;
     public List<SectorDto>? Children { get; set; }
+}
+```
+
+* **PersonDto**
+```csharp
+public class PersonDto(PersonEntity person)
+{
+    public Guid ExternalId { get; set; } = person.ExternalId;
+    public string FullName { get; set; } = person.FullName;
+    public SectorEntity? Sector { get; set; } = person.Sector;
+    public int SectorId { get; set; } = person.SectorId;
+    public bool Agreement { get; set; } = person.Agreement;
 }
 ```
 

@@ -24,6 +24,9 @@ USER=<your-db-user>
 DB=<your-db-name>
 DBKEY=<your-db-access-key>
 
+ADMIN_USERNAME=admin
+ADMIN_KEY_BCRYPT='<admin-password-bcrypt-hash>'
+
 FRONTENDURL=<your-frontend-client-url>
 ```
 b) the second one in the root of frontend folder `/sectors-frontend` and it should have following content:

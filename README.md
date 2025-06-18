@@ -177,10 +177,10 @@ API documentation is done using Swagger. Below is an image of all available API 
 ![Screenshot 2025-06-18 234708](https://github.com/user-attachments/assets/9fdf2615-3d3d-4c21-a980-8f5ba64082da)
 
 * **Admin UI** for managing DB data conviniently (implemented via ASP.NET View)
-![Screenshot 2025-06-18 234753](https://github.com/user-attachments/assets/f6d268c9-eba5-46a2-b14d-4a4c642c1fcb)
-![Screenshot 2025-06-18 234745](https://github.com/user-attachments/assets/57da73e0-eada-4e85-9a89-83782a102160)
-![Screenshot 2025-06-18 234736](https://github.com/user-attachments/assets/49d5fbe5-6daf-4d23-968f-6fc90aa4a4aa)
 ![Screenshot 2025-06-18 234725](https://github.com/user-attachments/assets/0925f989-6224-4987-9abb-67044885400d)
+![Screenshot 2025-06-18 234736](https://github.com/user-attachments/assets/49d5fbe5-6daf-4d23-968f-6fc90aa4a4aa)
+![Screenshot 2025-06-18 234745](https://github.com/user-attachments/assets/57da73e0-eada-4e85-9a89-83782a102160)
+![Screenshot 2025-06-18 234753](https://github.com/user-attachments/assets/f6d268c9-eba5-46a2-b14d-4a4c642c1fcb)
 
 
 For the **Main UI** customisation is done using Tailwind CSS.

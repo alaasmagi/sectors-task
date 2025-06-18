@@ -30,4 +30,9 @@ public class SectorRepository(AppDbContext context)
 
         return BuildHierarchy(null);
     }
+
+    public async Task<bool> DoesSectorExist(int id)
+    {
+        return await context.Sectors.AnyAsync(s => s.Id == id);
+    }
 }

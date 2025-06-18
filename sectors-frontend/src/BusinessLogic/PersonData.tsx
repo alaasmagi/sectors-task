@@ -1,36 +1,45 @@
 import axios from "axios";
 import SectorModel from "../Models/SectorModel";
 import PersonModel from "../Models/PersonModel";
+import ResponseModel from "../Models/ResponseModel";
 
 export async function GetAllSectors(): Promise<SectorModel[] | string> {
-  const response = await axios.get(`${import.meta.env.VITE_API_URL}/Person/Sectors`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await axios.get(
+    `${import.meta.env.VITE_API_URL}/Person/Sectors`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   if (response.status === 200 && !response.data.message) {
     const result: SectorModel[] = response.data;
     return result;
   }
 
-  return response.data.message ?? "No internet connetion";
+  return response.data.message ?? "No internet connection";
 }
 
-export async function GetPersonById(personId: string): Promise<PersonModel | string> {
-  const response = await axios.get(`${import.meta.env.VITE_API_URL}/Person/${personId}`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+export async function GetPersonById(
+  personId: string
+): Promise<PersonModel | string> {
+  const response = await axios.get(
+    `${import.meta.env.VITE_API_URL}/Person/${personId}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   if (response.status === 200 && !response.data.message) {
     const result: PersonModel = response.data;
     return result;
   }
 
-  return response.data.message ?? "No internet connetion";
+  return response.data.message ?? "No internet connection";
 }
 
-export async function AddPerson(person: PersonModel): Promise<number | string> {
+export async function AddPerson(person: PersonModel): Promise<ResponseModel> {
   const response = await axios.post(
     `${import.meta.env.VITE_API_URL}/Person/Add`,
     {
@@ -45,19 +54,27 @@ export async function AddPerson(person: PersonModel): Promise<number | string> {
       },
     }
   );
+
   if (response.status === 200 && !response.data.message) {
-    const result: number = response.data;
+    const result: ResponseModel = {
+      success: true,
+      response: response.data,
+    };
     return result;
   }
 
-  return response.data.message ?? "No internet connetion";
+  const result: ResponseModel = {
+    success: false,
+    errorMessage: response.data.message ?? "No internet connection",
+  };
+  return result;
 }
 
-export async function UpdatePerson(person: PersonModel): Promise<number | string> {
+export async function UpdatePerson(person: PersonModel): Promise<ResponseModel> {
   const response = await axios.patch(
     `${import.meta.env.VITE_API_URL}/Person/Update`,
     {
-      personId: person.personId,
+      externalId: person.externalId,
       fullName: person.fullName,
       sectorId: person.sectorId,
       agreement: person.agreement,
@@ -69,23 +86,43 @@ export async function UpdatePerson(person: PersonModel): Promise<number | string
       },
     }
   );
+
   if (response.status === 200 && !response.data.message) {
-    const result: number = response.data;
+    const result: ResponseModel = {
+      success: true,
+      response: response.data,
+    };
     return result;
   }
 
-  return response.data.message ?? "No internet connetion";
+  const result: ResponseModel = {
+    success: false,
+    errorMessage: response.data.message ?? "No internet connection",
+  };
+  return result;
 }
 
-export async function RemovePerson(id: number): Promise<boolean | string> {
-  const response = await axios.delete(`${import.meta.env.VITE_API_URL}/Person/${id}`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+export async function RemovePerson(id: string): Promise<ResponseModel> {
+  const response = await axios.delete(
+    `${import.meta.env.VITE_API_URL}/Person/${id}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
   if (response.status === 200 && !response.data.message) {
-    return true;
+    const result: ResponseModel = {
+      success: true,
+      response: response.data,
+    };
+    return result;
   }
 
-  return response.data.message ?? "No internet connetion";
+  const result: ResponseModel = {
+    success: false,
+    errorMessage: response.data.message ?? "No internet connection",
+  };
+  return result;
 }

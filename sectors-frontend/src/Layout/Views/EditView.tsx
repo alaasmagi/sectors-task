@@ -91,43 +91,43 @@ function EditView() {
     };
 
     const result = await AddPerson(data);
-    if (typeof result === "number") {
+    if (result.success === true) {
       setSuccessMessage("Person added successfully");
       setTimeout(() => setSuccessMessage(null), 2500);
-      setTimeout(() => navigate(`/${result}`), 2500);
+      setTimeout(() => navigate(`/${result.response}`), 2500);
     } else {
-      setErrorMessage(result);
+      setErrorMessage(String(result.errorMessage));
       setTimeout(() => setErrorMessage(null), 2500);
     }
   };
 
   const handleEdit = async () => {
     const data: PersonModel = {
-      personId: Number(id),
+      externalId: String(id),
       fullName: insertedFullName,
       sectorId: Number(selectedSectorId),
       agreement: termsAgreement,
     };
 
     const result = await UpdatePerson(data);
-    if (typeof result === "number") {
+    if (result.success === true) {
       setSuccessMessage("Person updated successfully");
       setTimeout(() => setSuccessMessage(null), 2500);
       setTimeout(() => navigate(`/${result}`), 2500);
     } else {
-      setErrorMessage(result);
+      setErrorMessage(String(result.errorMessage));
       setTimeout(() => setErrorMessage(null), 2500);
     }
   };
 
   const handleDelete = async () => {
-    const result = await RemovePerson(Number(id));
-    if (typeof result === "boolean") {
+    const result = await RemovePerson(String(id));
+    if (result.success === true) {
       setSuccessMessage("Person deleted successfully");
       setTimeout(() => setSuccessMessage(null), 2500);
       setTimeout(() => navigate(`/`), 2500);
     } else {
-      setErrorMessage(result);
+      setErrorMessage(String(result.errorMessage));
       setTimeout(() => setErrorMessage(null), 2500);
     }
   };

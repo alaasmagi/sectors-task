@@ -13,31 +13,47 @@ public class PersonService(AppDbContext context)
         return await _sectorRepository.GetAllSectors();
     }
     
-    public async Task<PersonEntity?> GetPersonByIdAsync(int personId)
+    public async Task<PersonDto?> GetPersonByExternalIdAsync(Guid externalId)
     {
-        return await _personRepository.GetPersonById(personId);
+        var person = await _personRepository.GetPersonByExternalId(externalId);
+        
+        if (person == null)
+        {
+            return null;
+        }
+        
+        return new PersonDto(person);
     }
     
-    public async Task<int?> AddPersonToDbAsync(PersonEntity person)
+    public async Task<Guid?> AddPersonToDbAsync(PersonEntity person)
     {
         var doesPersonExist = await _personRepository.DoesPersonExistByName(person.FullName);
-
-        if (doesPersonExist)
+        var doesSectorExist = await _sectorRepository.DoesSectorExist(person.SectorId);
+        
+        if (doesPersonExist || !doesSectorExist)
         {
-            return 0;
+            return null;
         }
         
         return await _personRepository.InsertPerson(person);
     }
    
-    public async Task<int> UpdatePersonAsync(int personId, PersonEntity newPersonData)
+    public async Task<Guid?> UpdatePersonAsync(Guid externalId, PersonEntity newPersonData)
     {
-        return await _personRepository.UpdatePerson(personId, newPersonData);
+        var doesPersonExist = await _personRepository.DoesPersonExistByExternalId(externalId);
+        var doesSectorExist = await _sectorRepository.DoesSectorExist(newPersonData.SectorId);
+        
+        if (!doesPersonExist || !doesSectorExist)
+        {
+            return null;
+        }
+        
+        return await _personRepository.UpdatePerson(externalId, newPersonData);
     }
     
-    public async Task<bool> DeletePersonAsync(int personId)
+    public async Task<bool> DeletePersonAsync(Guid externalId)
     {
-        return await _personRepository.DeletePerson(personId);
+        return await _personRepository.DeletePerson(externalId);
     }
     
 }

@@ -1,5 +1,5 @@
 interface PersonModel {
-  personId?: number;
+  externalId?: string;
   fullName: string;
   sectorId: number;
   agreement: boolean;

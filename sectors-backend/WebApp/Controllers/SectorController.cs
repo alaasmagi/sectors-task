@@ -10,7 +10,7 @@ using Domain;
 
 namespace WebApp.Controllers
 {
-    public class SectorController : Controller
+    public class SectorController : BaseController
     {
         private readonly AppDbContext _context;
 
@@ -22,6 +22,12 @@ namespace WebApp.Controllers
         // GET: Sector
         public async Task<IActionResult> Index()
         {
+            var tokenValidity = IsTokenValidAsync(HttpContext);
+            if (!tokenValidity)
+            {
+                return Unauthorized("You cannot access admin panel without logging in!");
+            }
+            
             var appDbContext = _context.Sectors.IgnoreQueryFilters().Include(s => s.Parent);
             return View(await appDbContext.ToListAsync());
         }
@@ -29,6 +35,12 @@ namespace WebApp.Controllers
         // GET: Sector/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var tokenValidity = IsTokenValidAsync(HttpContext);
+            if (!tokenValidity)
+            {
+                return Unauthorized("You cannot access admin panel without logging in!");
+            }
+            
             if (id == null)
             {
                 return NotFound();
@@ -49,6 +61,12 @@ namespace WebApp.Controllers
         // GET: Sector/Create
         public IActionResult Create()
         {
+            var tokenValidity = IsTokenValidAsync(HttpContext);
+            if (!tokenValidity)
+            {
+                return Unauthorized("You cannot access admin panel without logging in!");
+            }
+            
             ViewData["ParentId"] = GetParentSelectList();
             return View();
         }
@@ -60,6 +78,12 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,ParentId,Id,CreatedBy,CreatedAt,UpdatedBy,UpdatedAt,Deleted")] SectorEntity sectorEntity)
         {
+            var tokenValidity = IsTokenValidAsync(HttpContext);
+            if (!tokenValidity)
+            {
+                return Unauthorized("You cannot access admin panel without logging in!");
+            }
+            
             if (ModelState.IsValid)
             {
                 _context.Add(sectorEntity);
@@ -73,6 +97,12 @@ namespace WebApp.Controllers
         // GET: Sector/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            var tokenValidity = IsTokenValidAsync(HttpContext);
+            if (!tokenValidity)
+            {
+                return Unauthorized("You cannot access admin panel without logging in!");
+            }
+            
             if (id == null)
             {
                 return NotFound();
@@ -94,6 +124,12 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Name,ParentId,Id,CreatedBy,CreatedAt,UpdatedBy,UpdatedAt,Deleted")] SectorEntity sectorEntity)
         {
+            var tokenValidity = IsTokenValidAsync(HttpContext);
+            if (!tokenValidity)
+            {
+                return Unauthorized("You cannot access admin panel without logging in!");
+            }
+            
             if (id != sectorEntity.Id)
             {
                 return NotFound();
@@ -126,6 +162,12 @@ namespace WebApp.Controllers
         // GET: Sector/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            var tokenValidity = IsTokenValidAsync(HttpContext);
+            if (!tokenValidity)
+            {
+                return Unauthorized("You cannot access admin panel without logging in!");
+            }
+            
             if (id == null)
             {
                 return NotFound();
@@ -148,6 +190,12 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var tokenValidity = IsTokenValidAsync(HttpContext);
+            if (!tokenValidity)
+            {
+                return Unauthorized("You cannot access admin panel without logging in!");
+            }
+            
             var sectorEntity = await _context.Sectors.IgnoreQueryFilters().FirstOrDefaultAsync(s => s.Id == id);
             if (sectorEntity != null)
             {
@@ -160,7 +208,7 @@ namespace WebApp.Controllers
 
         private bool SectorEntityExists(int id)
         {
-            return _context.Sectors.Any(e => e.Id == id);
+            return _context.Sectors.IgnoreQueryFilters().Any(e => e.Id == id);
         }
         
         private List<SelectListItem> GetParentSelectList(int? selectedParentId = null)

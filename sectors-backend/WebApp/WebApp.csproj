@@ -7,6 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="BCrypt" Version="1.0.0" />
+      <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
       <PackageReference Include="DotNetEnv" Version="3.1.1" />
         <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.3.0" />
         <PackageReference Include="Microsoft.AspNetCore.RateLimiting" Version="7.0.0-rc.2.22476.2" />
@@ -22,6 +24,7 @@
         <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.3" />
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
         <PackageReference Include="MySql.Data" Version="9.2.0" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2" />
         <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0-preview.2.efcore.9.0.0" />
         <PackageReference Include="Serilog" Version="4.2.0" />
         <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
@@ -36,6 +39,14 @@
     <ItemGroup>
       <ProjectReference Include="..\BLL\BLL.csproj" />
       <ProjectReference Include="..\DAL\DAL.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Person\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Person\Delete.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Person\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Person\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Person\Index.cshtml" />
     </ItemGroup>
 
 </Project>

@@ -6,6 +6,8 @@ namespace Domain;
 public class  PersonEntity : BaseEntity
 {
     [Required] 
+    public Guid ExternalId { get; set; } = Guid.NewGuid();
+    [Required] 
     [MaxLength(128)]
     public string FullName { get; set; } = default!;
     

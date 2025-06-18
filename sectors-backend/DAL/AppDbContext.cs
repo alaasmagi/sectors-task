@@ -10,6 +10,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<SectorEntity> Sectors { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasDefaultSchema("sectorstask");
         modelBuilder.Entity<PersonEntity>()
             .ToTable("Persons")
             .HasQueryFilter(p => !p.Deleted)
@@ -17,6 +18,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             .WithMany()
             .HasForeignKey(p => p.SectorId)
             .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<PersonEntity>()
+            .HasIndex(p => p.ExternalId)
+            .IsUnique();
         
         modelBuilder.Entity<SectorEntity>()
             .ToTable("Sectors")

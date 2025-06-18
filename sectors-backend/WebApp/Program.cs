@@ -18,17 +18,15 @@ var user = Environment.GetEnvironmentVariable("USER");
 var db = Environment.GetEnvironmentVariable("DB");
 var dbKey = Environment.GetEnvironmentVariable("DBKEY");
 
-var connectionString = $"Server={host};Port={port};Database={db};User={user};Password={dbKey};Pooling=true;Minimum Pool Size=0;Maximum Pool Size=100";
-
+var connectionString = $"Host={host};Port={port};Database={db};Username={user};Password={dbKey};Pooling=true;Minimum Pool Size=0;Maximum Pool Size=100;SearchPath=sectorstask;";
 var frontendUrl = Environment.GetEnvironmentVariable("FRONTENDURL");
 
 builder.Services.AddDbContextPool<AppDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
-        mysqlOptions =>
-        {
-            mysqlOptions.CommandTimeout(60);
-            mysqlOptions.EnableRetryOnFailure(3);
-        }), poolSize: 500);
+    options.UseNpgsql(connectionString, npgsqlOptions =>
+    {
+        npgsqlOptions.CommandTimeout(60);
+        npgsqlOptions.EnableRetryOnFailure(3);
+    }), poolSize: 500);
 
 builder.Services.AddCors(options =>
 {
@@ -61,6 +59,14 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "sectors-task", Version = "v1" });
 });
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+builder.Services.AddDistributedMemoryCache();
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -77,6 +83,10 @@ app.UseSwaggerUI(c => {
 
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseStaticFiles();
+
+app.UseSession(); 
+
 
 app.UseAuthorization();
 

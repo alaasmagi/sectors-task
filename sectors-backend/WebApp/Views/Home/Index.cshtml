@@ -1,8 +1,33 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model AdminLoginModel
+@{
+    ViewData["Title"] = "Login Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="mb-2">Backend admin panel</h1>
+    
+    @if (Model.Message != string.Empty)
+    {
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div class="alert alert-danger" role="alert"><b>@Model.Message</b></div>
+            </div>
+        </div>
+    }
+    
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-4">
+            <form class="form-group" method="post" asp-action="Index">
+                <label for="username-input" class="form-label text-start d-block mt-3">Admin username:</label>
+                <input type="text" class="form-control" name="Username" value="admin" id="username-input" placeholder="Enter username" disabled required>
+                <label for="password-input" class="form-label text-start d-block mt-3">Admin password:</label>
+                <input type="password" class="form-control mt-2" name="Password" id="password-input" placeholder="Enter password" required>
+                <button type="submit" class="btn btn-primary mt-4 w-50 h-25"><b>Log in</b></button>
+            </form>
+        </div>
+    </div>
 </div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

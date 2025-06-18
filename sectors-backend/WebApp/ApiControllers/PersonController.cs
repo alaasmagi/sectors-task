@@ -23,10 +23,10 @@ public class PersonController(PersonService personService) : ControllerBase
         return Ok(sectors);
     }
     
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetPersonById(int id)
+    [HttpGet("{externalId}")]
+    public async Task<IActionResult> GetPersonById(Guid externalId)
     {
-        var person = await personService.GetPersonByIdAsync(id);
+        var person = await personService.GetPersonByExternalIdAsync(externalId);
 
         if (person == null)
         {
@@ -53,19 +53,19 @@ public class PersonController(PersonService personService) : ControllerBase
             UpdatedBy = model.Origin
         };
         
-        var personId = await personService.AddPersonToDbAsync(newPerson);
-        if (personId == 0)
+        var personExternalId = await personService.AddPersonToDbAsync(newPerson);
+        if (personExternalId == null)
         {
             return Ok(new { message = "Person was not added"});
         }
         
-        return Ok(personId);
+        return Ok(personExternalId);
     }
     
     [HttpPatch("Update")]
     public async Task<IActionResult> UpdatePerson([FromBody] PersonModel model)
     {
-        if (ModelState.IsValid == false || model.PersonId <= 0)
+        if (ModelState.IsValid == false || model.ExternalId == null)
         {
             return Ok(new { message = "Invalid credentials"});
         }
@@ -79,19 +79,19 @@ public class PersonController(PersonService personService) : ControllerBase
             UpdatedBy = model.Origin
         };
 
-        var personId = await personService.UpdatePersonAsync(model.PersonId!.Value, newPerson);
-        if (personId == 0)
+        var personExternalId = await personService.UpdatePersonAsync(model.ExternalId!.Value, newPerson);
+        if (personExternalId == null)
         {
             return Ok(new { message = "Person was not updated"});
         }
         
-        return Ok(personId);
+        return Ok(personExternalId);
     }
     
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeletePerson(int id)
+    [HttpDelete("{externalId}")]
+    public async Task<IActionResult> DeletePerson(Guid externalId)
     {
-        var status = await personService.DeletePersonAsync(id);
+        var status = await personService.DeletePersonAsync(externalId);
         if (!status)
         {
             return Ok(new { message = "Person was not deleted"});

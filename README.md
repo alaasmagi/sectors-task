@@ -183,7 +183,7 @@ API documentation is done using Swagger. Below is an image of all available API 
 ![Screenshot 2025-06-18 234753](https://github.com/user-attachments/assets/f6d268c9-eba5-46a2-b14d-4a4c642c1fcb)
 
 
-For the **Main UI** customisation is done using Tailwind CSS.
+For the **Main UI** customisation is done using Tailwind CSS.  
 For the **Admin UI** customisation is done using Bootstrap.
 
 ## Improvements & scaling possibilities

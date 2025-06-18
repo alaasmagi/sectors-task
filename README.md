@@ -170,10 +170,10 @@ API documentation is done using Swagger. Below is an image of all available API 
 ### User Interface
 **The application has two UIs:**
 * **Main UI** for regular application users (implemented in TypeScript & React)
-![Screenshot 2025-06-18 234701](https://github.com/user-attachments/assets/afcc9a37-0db2-4445-8882-0168bafb175a)
+![Screenshot 2025-06-18 234613](https://github.com/user-attachments/assets/7fd5a198-5666-4b73-afc0-33d1c1958707)
 ![Screenshot 2025-06-18 234623](https://github.com/user-attachments/assets/68bedef5-f7f0-4cea-b97c-60f24186ee75)
 ![Screenshot 2025-06-18 234634](https://github.com/user-attachments/assets/72633e7e-5189-4653-b399-8b01a155ab1a)
-![Screenshot 2025-06-18 234613](https://github.com/user-attachments/assets/7fd5a198-5666-4b73-afc0-33d1c1958707)
+![Screenshot 2025-06-18 234701](https://github.com/user-attachments/assets/afcc9a37-0db2-4445-8882-0168bafb175a)
 ![Screenshot 2025-06-18 234708](https://github.com/user-attachments/assets/9fdf2615-3d3d-4c21-a980-8f5ba64082da)
 
 * **Admin UI** for managing DB data conviniently (implemented via ASP.NET View)

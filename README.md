@@ -47,7 +47,7 @@ dotnet run
 npm i; npm run dev 
 ```
 
-### Running the backend with Docker
+### Running the backend with Docker (plug-n-play)
 Docker image [link](https://hub.docker.com/r/alaasmagi/sectors-backend)  
 
 Pull the Docker image from Docker Hub:  
@@ -73,6 +73,7 @@ To run the container with .env file:
 ```bash
 docker run --env-file .env -p 5093:5093 alaasmagi/educode-backend:<version-number>
 ```
+* user interface can be viewed from the web browser on the address the application provided in the terminal/cmd
 
 ## Features
 * Users can add their name, job sector and agreement to terms

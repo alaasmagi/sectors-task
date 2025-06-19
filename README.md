@@ -47,7 +47,7 @@ dotnet run
 npm i; npm run dev 
 ```
 
-### Running the backend with Docker (plug-n-play)
+### Running the backend with Docker (*The Easy way*)
 Docker image [link](https://hub.docker.com/r/alaasmagi/sectors-backend)  
 
 Pull the Docker image from Docker Hub:  

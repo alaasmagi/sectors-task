@@ -47,6 +47,33 @@ dotnet run
 npm i; npm run dev 
 ```
 
+### Running the backend with Docker
+Docker image [link](https://hub.docker.com/r/alaasmagi/sectors-backend)  
+
+Pull the Docker image from Docker Hub:  
+```bash
+docker pull alaasmagi/sectors-backend
+```
+
+The application should have .env file in the path of current terminal/cmd window and it shoult have following content:
+```bash
+HOST=<your-db-host>
+PORT=<your-db-port>
+USER=<your-db-user>
+DB=<your-db-name>
+DBKEY=<your-db-access-key>
+
+ADMIN_USERNAME=admin
+ADMIN_KEY_BCRYPT='<admin-password-bcrypt-hash>'
+
+FRONTENDURL=<your-frontend-client-url>
+```
+
+To run the container with .env file:  
+```bash
+docker run --env-file .env -p 5093:5093 alaasmagi/educode-backend:<version-number>
+```
+
 ## Features
 * Users can add their name, job sector and agreement to terms
 * Users can manage (edit/delete) their data in the current session

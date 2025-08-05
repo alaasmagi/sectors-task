@@ -155,7 +155,7 @@ public class BaseEntity
     public bool Deleted { get; set; } = false;
 }
 ```
-The `BaseEntity` class is not defined in this project, it comes from the NuGet package [AL_AppDev.Base(v1.0.2)](https://www.nuget.org/packages/AL_AppDev.Base/1.0.2), which is published and maintained by myself.
+The `BaseEntity` class is not defined in this project, it comes from the NuGet package [AL_AppDev.Base(v1.0.3)](https://www.nuget.org/packages/AL_AppDev.Base/1.0.3), which is published and maintained by myself.
 
 
 ### DTOs

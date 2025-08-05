@@ -113,7 +113,7 @@ function EditView() {
     if (result.success === true) {
       setSuccessMessage("Person updated successfully");
       setTimeout(() => setSuccessMessage(null), 2500);
-      setTimeout(() => navigate(`/${result}`), 2500);
+      setTimeout(() => navigate(`/${result.response}`), 2500);
     } else {
       setErrorMessage(String(result.errorMessage));
       setTimeout(() => setErrorMessage(null), 2500);

@@ -71,7 +71,7 @@ FRONTENDURL=<your-frontend-client-url>
 
 To run the container with .env file:  
 ```bash
-docker run --env-file .env -p 5093:5093 alaasmagi/educode-backend:<version-number>
+docker run --env-file .env -p 5093:5093 alaasmagi/sectors-backend:latest
 ```
 * user interface can be viewed from the web browser on the address the application provided in the terminal/cmd
 

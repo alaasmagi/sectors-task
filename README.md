@@ -27,11 +27,11 @@ DBKEY=<your-db-access-key>
 ADMIN_USERNAME=admin
 ADMIN_KEY_BCRYPT='<admin-password-bcrypt-hash>'
 
-FRONTENDURL=<your-frontend-client-url>
+FRONTENDURL=<your-frontend-client-url> #(Default: http://localhost:5173)
 ```
 b) the second one in the root of frontend folder `/sectors-frontend` and it should have following content:
 ```bash
-VITE_API_URL=<your-backend-api-url>
+VITE_API_URL=<your-backend-api-url> #(Default: http://localhost:5093/api)
 ```
 These .env files help keeping sensitive DB access information secure and also giving the flexibility of setting frontend and backend URL-s without actually digging into the source code itself.
 
@@ -66,7 +66,7 @@ DBKEY=<your-db-access-key>
 ADMIN_USERNAME=admin
 ADMIN_KEY_BCRYPT='<admin-password-bcrypt-hash>'
 
-ASPNETCORE_URLS=http://0.0.0.0:5093
+ASPNETCORE_URLS=<backend-url-for-docker> #(DEFAULT: http://0.0.0.0:5093)
 
 FRONTENDURL=<your-frontend-client-url>
 ```

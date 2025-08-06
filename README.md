@@ -66,7 +66,7 @@ DBKEY=<your-db-access-key>
 ADMIN_USERNAME=admin
 ADMIN_KEY_BCRYPT='<admin-password-bcrypt-hash>'
 
-ASPNETCORE_URLS='<backend-url-for-docker>'
+ASPNETCORE_URLS=<backend-url-for-docker>
 
 FRONTENDURL=<your-frontend-client-url>
 ```

@@ -66,9 +66,11 @@ DBKEY=<your-db-access-key>
 ADMIN_USERNAME=admin
 ADMIN_KEY_BCRYPT='<admin-password-bcrypt-hash>'
 
-ASPNETCORE_URLS=<backend-url-for-docker> #(DEFAULT: http://0.0.0.0:5093)
-
 FRONTENDURL=<your-frontend-client-url>
+
+#Following variables are required only for Docker
+ASPNETCORE_ENVIRONMENT=Development
+ASPNETCORE_URLS=<backend-url-for-docker> #(DEFAULT: http://0.0.0.0:5093)
 ```
 
 To run the container with .env file:  

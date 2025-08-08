@@ -92,7 +92,7 @@ I used ASP.NET MVC to maintain a clean and well-structured codebase. The MVC pat
 By separating UI components, views, and business logic, the frontend remains clean, modular, and easy to understand.
 
 ### Services
-There is one services in the backend:
+There is one service in the backend:
 * **PersonService** - main service that handles all CRUD operations with PersonEntity and also fetches all SectorEntities.
 
 ### Domain

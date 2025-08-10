@@ -116,7 +116,7 @@ public class  PersonEntity : BaseEntity
 }
 ```
 
-* **SalaryInputModel** - groups all sector related data fields together
+* **SectorEntity** - groups all sector related data fields together
 ```csharp
 public class SectorEntity : BaseEntity
 {

@@ -21,6 +21,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         modelBuilder.Entity<PersonEntity>()
             .HasIndex(p => p.ExternalId)
             .IsUnique();
+        modelBuilder.Entity<PersonEntity>()
+            .HasIndex(p => p.FullName)
+            .IsUnique();
         
         modelBuilder.Entity<SectorEntity>()
             .ToTable("Sectors")

@@ -17,9 +17,10 @@ public class PersonController(PersonService personService) : ControllerBase
 
         if (sectors.Count == 0)
         {
-            return Ok(new { message = "Sectors not found"});
+            return NotFound(new { message = "Sectors not found"});
         }
-
+        
+        Response.Headers["Cache-Control"] = "public,max-age=1800";
         return Ok(sectors);
     }
     
@@ -30,18 +31,18 @@ public class PersonController(PersonService personService) : ControllerBase
 
         if (person == null)
         {
-            return Ok(new { message = "Person not found"});
+            return NotFound(new { message = "Person not found"});
         }
         
         return Ok(person);
     }
     
-    [HttpPost("Add")]
+    [HttpPost]
     public async Task<IActionResult> AddPerson([FromBody] PersonModel model)
     {
         if (ModelState.IsValid == false)
         {
-            return Ok(new { message = "Invalid credentials"});
+            return NotFound(new { message = "Invalid credentials"});
         }
 
         var newPerson = new PersonEntity
@@ -56,18 +57,18 @@ public class PersonController(PersonService personService) : ControllerBase
         var personExternalId = await personService.AddPersonToDbAsync(newPerson);
         if (personExternalId == null)
         {
-            return Ok(new { message = "Person was not added"});
+            return BadRequest(new { message = "Person was not added"});
         }
         
         return Ok(personExternalId);
     }
     
-    [HttpPatch("Update")]
+    [HttpPatch]
     public async Task<IActionResult> UpdatePerson([FromBody] PersonModel model)
     {
         if (ModelState.IsValid == false || model.ExternalId == null)
         {
-            return Ok(new { message = "Invalid credentials"});
+            return BadRequest(new { message = "Invalid credentials"});
         }
         
         var newPerson = new PersonEntity
@@ -82,7 +83,7 @@ public class PersonController(PersonService personService) : ControllerBase
         var personExternalId = await personService.UpdatePersonAsync(model.ExternalId!.Value, newPerson);
         if (personExternalId == null)
         {
-            return Ok(new { message = "Person was not updated"});
+            return BadRequest(new { message = "Person was not updated"});
         }
         
         return Ok(personExternalId);
@@ -94,7 +95,7 @@ public class PersonController(PersonService personService) : ControllerBase
         var status = await personService.DeletePersonAsync(externalId);
         if (!status)
         {
-            return Ok(new { message = "Person was not deleted"});
+            return BadRequest(new { message = "Person was not deleted"});
         }
         
         return Ok();

@@ -13,8 +13,8 @@ public class PersonRepository(AppDbContext context)
 
     public async Task<bool> DoesPersonExistByName(string fullName)
     {
-        return await context.Persons.AnyAsync(p => p.FullName == fullName);
-    }
+        return await context.Persons
+            .AnyAsync(p => p.FullName.Trim().ToLower() == fullName.Trim().ToLower());    }
     
     public async Task<bool> DoesPersonExistByExternalId(Guid externalId)
     {

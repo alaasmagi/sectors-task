@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,11 +18,9 @@ namespace WebApp.Controllers
         // GET: Person
         public async Task<IActionResult> Index()
         {
-            var tokenValidity = IsTokenValidAsync(HttpContext);
-            if (!tokenValidity)
-            {
+            if (!IsTokenValidAsync(HttpContext))
                 return Unauthorized("You cannot access admin panel without logging in!");
-            }
+            
             var appDbContext = _context.Persons.IgnoreQueryFilters().Include(p => p.Sector);
             return View(await appDbContext.ToListAsync());
         }
@@ -34,11 +28,8 @@ namespace WebApp.Controllers
         // GET: Person/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            var tokenValidity = IsTokenValidAsync(HttpContext);
-            if (!tokenValidity)
-            {
+            if (!IsTokenValidAsync(HttpContext))
                 return Unauthorized("You cannot access admin panel without logging in!");
-            }
             
             if (id == null)
             {
@@ -60,11 +51,8 @@ namespace WebApp.Controllers
         // GET: Person/Create
         public IActionResult Create()
         {
-            var tokenValidity = IsTokenValidAsync(HttpContext);
-            if (!tokenValidity)
-            {
+            if (!IsTokenValidAsync(HttpContext))
                 return Unauthorized("You cannot access admin panel without logging in!");
-            }
             
             ViewData["SectorId"] = new SelectList(_context.Sectors, "Id", "Id");
             return View();
@@ -75,16 +63,16 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ExternalId,FullName,SectorId,Agreement,Id,CreatedBy,CreatedAt,UpdatedBy,UpdatedAt,Deleted")] PersonEntity personEntity)
+        public async Task<IActionResult> Create([Bind("ExternalId,FullName,SectorId,Agreement,Id,CreatedBy,UpdatedBy,Deleted")] PersonEntity personEntity)
         {
-            var tokenValidity = IsTokenValidAsync(HttpContext);
-            if (!tokenValidity)
-            {
+            if (!IsTokenValidAsync(HttpContext))
                 return Unauthorized("You cannot access admin panel without logging in!");
-            }
             
             if (ModelState.IsValid)
             {
+                personEntity.CreatedAt = DateTime.Now.ToUniversalTime();
+                personEntity.UpdatedAt = DateTime.Now.ToUniversalTime();
+
                 _context.Add(personEntity);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -96,11 +84,8 @@ namespace WebApp.Controllers
         // GET: Person/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            var tokenValidity = IsTokenValidAsync(HttpContext);
-            if (!tokenValidity)
-            {
+            if (!IsTokenValidAsync(HttpContext))
                 return Unauthorized("You cannot access admin panel without logging in!");
-            }
             
             if (id == null)
             {
@@ -121,13 +106,10 @@ namespace WebApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ExternalId,FullName,SectorId,Agreement,Id,CreatedBy,CreatedAt,UpdatedBy,UpdatedAt,Deleted")] PersonEntity personEntity)
+        public async Task<IActionResult> Edit(int id, [Bind("ExternalId,FullName,SectorId,Agreement,Id,CreatedBy,UpdatedBy,Deleted")] PersonEntity personEntity)
         {
-            var tokenValidity = IsTokenValidAsync(HttpContext);
-            if (!tokenValidity)
-            {
+            if (!IsTokenValidAsync(HttpContext))
                 return Unauthorized("You cannot access admin panel without logging in!");
-            }
             
             if (id != personEntity.Id)
             {
@@ -138,6 +120,7 @@ namespace WebApp.Controllers
             {
                 try
                 {
+                    personEntity.UpdatedAt = DateTime.Now.ToUniversalTime();
                     _context.Update(personEntity);
                     await _context.SaveChangesAsync();
                 }
@@ -161,11 +144,8 @@ namespace WebApp.Controllers
         // GET: Person/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            var tokenValidity = IsTokenValidAsync(HttpContext);
-            if (!tokenValidity)
-            {
+            if (!IsTokenValidAsync(HttpContext))
                 return Unauthorized("You cannot access admin panel without logging in!");
-            }
             
             if (id == null)
             {
@@ -189,11 +169,8 @@ namespace WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var tokenValidity = IsTokenValidAsync(HttpContext);
-            if (!tokenValidity)
-            {
+            if (!IsTokenValidAsync(HttpContext))
                 return Unauthorized("You cannot access admin panel without logging in!");
-            }
             
             var personEntity = await _context.Persons.IgnoreQueryFilters().FirstOrDefaultAsync(p => p.Id == id);
             if (personEntity != null)

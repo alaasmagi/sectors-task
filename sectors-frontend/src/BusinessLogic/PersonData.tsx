@@ -41,7 +41,7 @@ export async function GetPersonById(
 
 export async function AddPerson(person: PersonModel): Promise<ResponseModel> {
   const response = await axios.post(
-    `${import.meta.env.VITE_API_URL}/Person/Add`,
+    `${import.meta.env.VITE_API_URL}/Person`,
     {
       fullName: person.fullName,
       sectorId: person.sectorId,
@@ -72,7 +72,7 @@ export async function AddPerson(person: PersonModel): Promise<ResponseModel> {
 
 export async function UpdatePerson(person: PersonModel): Promise<ResponseModel> {
   const response = await axios.patch(
-    `${import.meta.env.VITE_API_URL}/Person/Update`,
+    `${import.meta.env.VITE_API_URL}/Person`,
     {
       externalId: person.externalId,
       fullName: person.fullName,
